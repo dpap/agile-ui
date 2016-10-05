@@ -6,17 +6,14 @@
     const express = require('express');
     const compression = require('compression');
     const serveStatic = require('serve-static');
-    var httpProxy = require('http-proxy');
-    var apiProxy = httpProxy.createProxyServer();
-    var baseAPI = 'http://localhost:8080',
-        dataServer = 'http://localhost:9000'
-
+    const httpProxy = require('http-proxy');
+    const apiProxy = httpProxy.createProxyServer();
+    const baseAPI = 'http://localhost:8080'
+    const dataServer = 'http://localhost:9000'
     const app = express();
-
     const ipAddress = process.env.DEVICE_IP || '0.0.0.0'
     const grafanaPort = process.env.GRAFANA_PORT || 3000
-
-    let serverPort = process.env.AGILE_CLIENT_PORT || 1337;
+    const serverPort = process.env.AGILE_CLIENT_PORT || 1337;
 
     app.all("/api/*", function(req, res) {
       console.log('redirecting to API');
