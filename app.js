@@ -8,8 +8,8 @@
     const serveStatic = require('serve-static');
     const httpProxy = require('http-proxy');
     const apiProxy = httpProxy.createProxyServer();
-    const baseAPI = 'http://localhost:8080'
-    const dataServer = 'http://localhost:9000'
+    const agileCore = 'http://agile-core:8080',
+    const agileGraph = 'http://agile-graph:9000'
     const app = express();
     const ipAddress = process.env.DEVICE_IP || '0.0.0.0'
     const grafanaPort = process.env.GRAFANA_PORT || 3000
@@ -17,12 +17,12 @@
 
     app.all("/api/*", function(req, res) {
       console.log('redirecting to API');
-      apiProxy.web(req, res, {target: baseAPI});
+      apiProxy.web(req, res, {target: agileCore});
     });
 
-    app.all("/data/*", function(req, res) {
-      console.log('redirecting to DataServer');
-      apiProxy.web(req, res, {target: dataServer});
+    app.all("/graph/*", function(req, res) {
+      console.log('redirecting to agileGraph');
+      apiProxy.web(req, res, {target: agileGraph});
     });
 
     app.get("/resin/grafana", function(req, res) {
