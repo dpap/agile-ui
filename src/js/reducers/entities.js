@@ -20,7 +20,7 @@ export default function entities(state = initialState, action) {
   switch (action.type) {
     case 'DEVICE_DELETE_SUCCESS':
       // remove device from cached list
-      let registeredDevices = _.omit(state.registeredDevices, action.deviceId)
+      let registeredDevices = _.omit(state.registeredDevices, action.result)
       return {
         ...state,
         registeredDevices

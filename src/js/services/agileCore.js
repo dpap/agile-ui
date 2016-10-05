@@ -6,7 +6,9 @@ function callApi(method, url, body, schema) {
   return axios({
     method: method,
     url: url,
-    headers: [],
+    headers: {
+        'Content-Type': 'application/json'
+    },
     data: JSON.stringify(body)
   })
   .then(response => {
@@ -51,8 +53,9 @@ const protocolsSchemaArray = arrayOf(protocolsSchema)
 export const deviceFetch = deviceId => callApi('GET', `${BASE_API}/devices/${deviceId}`, null, registeredDeviceSchema)
 export const registeredDevicesFetch = () => callApi('GET', `${BASE_API}/devices`, null, registeredDeviceSchemaArray)
 export const devicesFetch = () => callApi('GET', `${BASE_API}/protocols/devices`, null, deviceSchemaArray)
-export const deviceDelete = deviceId => callApi('DELETE', `${BASE_API}/device/${deviceId}`)
-export const deviceRegister = device => callApi('POST', `${BASE_API}/devices`, device)
+export const deviceDelete = deviceId => callApi('DELETE', `${BASE_API}/devices/${deviceId}`)
+export const deviceRegister = device => callApi('POST', `${BASE_API}/devices/register`, device, registeredDeviceSchema)
+export const deviceConnect = deviceId => callApi('POST', `${BASE_API}/device/${deviceId}/connect`, deviceId, registeredDeviceSchema)
 
 // settings
 export const protocolsFetch = () => callApi('GET', `${BASE_API}/protocols`, null, protocolsSchemaArray)

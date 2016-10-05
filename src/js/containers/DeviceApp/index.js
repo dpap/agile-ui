@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Device, NoResults, Loading } from '../../components'
 import { bindActionCreators } from 'redux'
-import { deviceDelete, deviceGafanaLink } from '../../actions/device'
+import { deviceDelete, deviceGafanaLink, deviceConnect } from '../../actions/device'
 
 class DeviceApp extends Component {
 
@@ -41,6 +41,9 @@ function mapDispatchToProps(dispatch) {
   },{
     text: 'View Data',
     func:  bindActionCreators(deviceGafanaLink, dispatch)
+  },{
+    text: 'Connect',
+    func:  bindActionCreators(deviceConnect.request, dispatch)
   }]
   return {
     actions: actions

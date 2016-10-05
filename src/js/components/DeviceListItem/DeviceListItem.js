@@ -10,7 +10,8 @@ export default class DeviceListItem extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    protocol: PropTypes.string.isRequired,
+    protocol: PropTypes.string,
+    address: PropTypes.string,
     device: PropTypes.object,
     actions: PropTypes.array
   }
@@ -23,6 +24,7 @@ export default class DeviceListItem extends Component {
             id={this.props.id}
             name={this.props.name}
             path={this.props.protocol}
+            address={this.props.address}
           />
           </Link>
           <DeviceActions

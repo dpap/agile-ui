@@ -13,6 +13,9 @@
 
     const app = express();
 
+    const ipAddress = process.env.DEVICE_IP || '0.0.0.0'
+    const grafanaPort = process.env.GRAFANA_PORT || 3000
+
     let serverPort = process.env.AGILE_CLIENT_PORT || 1337;
 
     app.all("/api/*", function(req, res) {
@@ -23,6 +26,10 @@
     app.all("/data/*", function(req, res) {
       console.log('redirecting to DataServer');
       apiProxy.web(req, res, {target: dataServer});
+    });
+
+    app.get("/resin/grafana", function(req, res) {
+      res.status(200).send(ipAddress + ':' + grafanaPort + '/dashboard/db/');
     });
 
     app.use(compression());

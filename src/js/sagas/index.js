@@ -14,13 +14,13 @@ export function* rootSaga() {
 function* routeHandler(action) {
   let saga
   let route = action.payload.pathname
-  if (route === '/discover') {
-    saga = yield fork(deviceListSaga)
+  if (route === '/') {
+    saga = yield fork(registeredDeviceListSaga)
   } else if (/device/i.test(route)) {
     // check if its a single device page
     saga = yield fork(deviceSaga, route.split("/").pop())
-  } else {
-    saga = yield fork(registeredDeviceListSaga)
+  } else if (route === '/discover') {
+    saga = yield fork(deviceListSaga)
   }
   // kill sagas when route changes
   yield take('@@router/LOCATION_CHANGE')

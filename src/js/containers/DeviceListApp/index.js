@@ -30,7 +30,7 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch, props) {
+function mapDispatchToProps(dispatch) {
   let actions = [{
     text: 'Register',
     func:  bindActionCreators(deviceRegister.request, dispatch)

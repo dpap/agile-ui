@@ -15,7 +15,6 @@ export function* fetchEntity(entity, apiFn, id) {
     yield put( entity.failure(id, error) )
 }
 
-export function redirector(route) {
-  browserHistory.push(route)
-  return
+export function redirect(route) {
+  return browserHistory.push(route)
 }
