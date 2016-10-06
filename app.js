@@ -9,11 +9,11 @@
     const httpProxy = require('http-proxy');
     const apiProxy = httpProxy.createProxyServer();
     // TODO don't hardcode ports
-    const agileCore = 'http://agile-core:8080',
-    const agileGraph = 'http://agile-graph:9000'
+    const agileCore = 'http://agile-core:8080';
+    const agileGraph = 'http://agile-graph:9000';
     const app = express();
-    const ipAddress = process.env.DEVICE_IP || '0.0.0.0'
-    const grafanaPort = process.env.AGILE_GRAPH_PORT || 3000
+    const ipAddress = process.env.DEVICE_IP || '0.0.0.0';
+    const grafanaPort = process.env.AGILE_GRAPH_PORT || 3000;
     const serverPort = process.env.AGILE_CLIENT_PORT || 1337;
 
     app.all("/api/*", function(req, res) {

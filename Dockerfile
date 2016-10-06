@@ -5,7 +5,6 @@ WORKDIR /usr/src/app
 
 # Copies the package.json first for better cache on later pushes
 COPY package.json package.json
-COPY entry.sh /usr/bin/entry.sh
 
 # This install npm dependencies on the resin.io build server,
 # making sure to clean up the artifacts it creates in order to reduce the image size.
@@ -15,4 +14,4 @@ RUN JOBS=MAX npm install --production --unsafe-perm && npm cache clean && rm -rf
 COPY ./public public
 COPY ./app.js app.js
 
-CMD [ "npm", "run serve" ]
+CMD npm run serve
