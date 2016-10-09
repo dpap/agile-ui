@@ -9,12 +9,18 @@
     const httpProxy = require('http-proxy');
     const apiProxy = httpProxy.createProxyServer();
     // TODO don't hardcode ports
-    const agileCore = 'http://agile-core:8080';
+    const agileCore = 'http://217.77.95.110:8080';
     const agileGraph = 'http://agile-graph:9000';
+    const agileCoreWS = 'ws://217.77.95.110:8080/ws';
     const app = express();
-    const ipAddress = process.env.DEVICE_IP || '0.0.0.0';
+    const ipAddress = process.env.DEVICE_IP || '217.77.95.110';
     const grafanaPort = process.env.AGILE_GRAPH_PORT || 3000;
-    const serverPort = process.env.AGILE_CLIENT_PORT || 1337;
+    const serverPort = process.env.AGILE_CLIENT_PORT || 8080;
+
+    httpProxy.createServer({
+      target: agileCoreWS,
+      ws: true
+    }).listen(8081);
 
     app.all("/api/*", function(req, res) {
       console.log('redirecting to API');
@@ -28,6 +34,11 @@
 
     app.get("/resin/grafana", function(req, res) {
       res.status(200).send(ipAddress + ':' + grafanaPort + '/dashboard/db/');
+    });
+
+    // hack
+    app.get("/ws", function(req, res) {
+      apiProxy.web(req, res, {target: agileCoreWS });
     });
 
     app.use(compression());
