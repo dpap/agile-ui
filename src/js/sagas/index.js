@@ -3,10 +3,12 @@ import { takeEvery } from 'redux-saga'
 import { registeredDeviceListSaga, deviceListSaga } from './deviceList'
 import { settingsSaga } from './settings'
 import { deviceSaga } from './device'
+import { websocketSaga } from './websocket'
 
 export function* rootSaga() {
   // settings saga runs on every page
   yield fork(settingsSaga)
+  yield fork(websocketSaga)
   // handle view changes and spawn appropriate sagas
   yield takeEvery('@@router/LOCATION_CHANGE', routeHandler)
 }

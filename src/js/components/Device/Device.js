@@ -25,7 +25,7 @@ export default class Device extends Component {
             unit={stream.unit}
             value={stream.value}
             color={randomMC.getColor()}
-            time={stream.time}
+            lastUpdate={stream.lastUpdate}
             />
         )
       )

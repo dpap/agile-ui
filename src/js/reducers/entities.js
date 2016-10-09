@@ -26,7 +26,21 @@ export default function entities(state = initialState, action) {
         registeredDevices
       }
 
+    case 'SOCKET_MESSAGE':
+      let origDevice = state.registeredDevices[action.result.deviceID]
+      let device = _.cloneDeep(origDevice)
+      let streamIndex = _.findIndex(device.streams, ['id', action.result.componentID])
+      device.streams[streamIndex] = Object.assign({}, device.streams[streamIndex], action.result)
+      registeredDevices = {
+        ...state.registeredDevices,
+        [action.result.deviceID]:device
+      }
+      return {
+        ...state,
+        registeredDevices
+      }
     case 'SETTINGS_DRAWER_TOGGLE':
+
     // opens settings ui drawer
       settings = {
         ...state.settings,

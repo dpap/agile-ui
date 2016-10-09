@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux'
 import { deviceDelete, deviceGafanaLink, deviceConnect } from '../../actions/device'
 
 class DeviceApp extends Component {
-
   static propTypes = {
     device: PropTypes.object,
     actions: PropTypes.array.isRequired

@@ -16,12 +16,14 @@ injectTapEventPlugin()
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import createSagaMiddleware from 'redux-saga'
+import { websocketMiddleware } from './services'
 import { rootSaga } from './sagas'
 
 const sagaMiddleware = createSagaMiddleware()
 const store = configureStore({}, sagaMiddleware)
 
 sagaMiddleware.run(rootSaga)
+websocketMiddleware(store)
 
 const history = syncHistoryWithStore(browserHistory, store)
 
