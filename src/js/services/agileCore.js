@@ -15,7 +15,7 @@ function callApi(method, url, body, schema) {
     // check if there is content
     if (isEmpty(response.data))
       return response
-    if (response.status === 204)
+    if (response.status === 204 || !schema)
       return response
     return Object.assign({},
       normalize(response.data, schema)
@@ -56,6 +56,8 @@ export const devicesFetch = () => callApi('GET', `${BASE_API}/protocols/devices`
 export const deviceDelete = deviceId => callApi('DELETE', `${BASE_API}/devices/${deviceId}`)
 export const deviceRegister = device => callApi('POST', `${BASE_API}/devices/register`, device, registeredDeviceSchema)
 export const deviceConnect = deviceId => callApi('POST', `${BASE_API}/device/${deviceId}/connect`, deviceId, registeredDeviceSchema)
+
+export const deviceTypeof = device => callApi('POST', `${BASE_API}/devices/typeof`, device)
 
 // settings
 export const protocolsFetch = () => callApi('GET', `${BASE_API}/protocols`, null, protocolsSchemaArray)

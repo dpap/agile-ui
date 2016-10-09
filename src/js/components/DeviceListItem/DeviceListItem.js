@@ -23,7 +23,7 @@ export default class DeviceListItem extends Component {
           <DeviceBasicInfo
             id={this.props.id}
             name={this.props.name}
-            path={this.props.protocol}
+            protocol={this.props.protocol}
             address={this.props.address}
           />
           </Link>

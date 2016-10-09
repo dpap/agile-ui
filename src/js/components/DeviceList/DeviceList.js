@@ -14,7 +14,7 @@ export default class DeviceList extends Component {
           key={deviceId}
           id={deviceId}
           name={devices[deviceId].name}
-          address={ devices[deviceId].address || deviceId}
+          address={devices[deviceId].address || deviceId}
           protocol={devices[deviceId].protocol}
           device={devices[deviceId]}
           actions={this.props.actions} />

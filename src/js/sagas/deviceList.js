@@ -24,7 +24,11 @@ function* _deviceListPoll(fn) {
   }
 }
 
+
 export function* DeviceRegisterSaga(entity, apiFn, action) {
+
+  var typeofObj = yield call(agileCore.deviceTypeof, action.result)
+
   let device = action.result
   let newDevice = {
     overview: {
@@ -33,13 +37,14 @@ export function* DeviceRegisterSaga(entity, apiFn, action) {
       name: device.name,
       status: device.status
     },
-    type: 'TI SensorTag'
+    type: typeofObj.response.data[0]
   }
+
   const {response, error} = yield call(apiFn, newDevice)
 
   if(response) {
     yield put( entity.success(newDevice, response) )
-    yield put(newMessage(`Successfully paired device ${device.id}`))
+    yield put(newMessage(`Successfully registered device ${device.name}`))
     yield redirect('/')
   } else {
     yield put( entity.failure(newDevice, error) )

@@ -12,10 +12,17 @@ export default class DeviceBasicInfo extends Component {
   }
 
   render () {
+    const childNode = (
+      <div><p>id: { this.props.id } </p>
+      <p>address: {this.props.address}</p>
+      <p>protocol: {this.props.protocol}</p>
+      </div>
+      )
     return (
       <CardHeader
+        titleStyle={{'marginBottom': '10px'}}
         title={this.props.name}
-        subtitle={this.props.protocol || this.props.address }
+        subtitle={childNode}
         avatar={<Avatar>{this.props.name ?  this.props.name.charAt(0): '' }</Avatar>}
       />
     )
