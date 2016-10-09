@@ -7,20 +7,39 @@
     const compression = require('compression');
     const serveStatic = require('serve-static');
     const httpProxy = require('http-proxy');
-    const apiProxy = httpProxy.createProxyServer();
-    // TODO don't hardcode ports
-    const agileCore = 'http://217.77.95.110:8080';
-    const agileGraph = 'http://agile-graph:9000';
-    const agileCoreWS = 'ws://217.77.95.110:8080/ws';
+    const http = require( 'http' );
     const app = express();
+    const apiProxy = httpProxy.createProxyServer({ws:true});
+    const server = http.createServer(app);
+    // TODO don't hardcode ports
+    const agileCore = 'http://agile-core:8080';
+    const agileGraph = 'http://agile-graph:9000';
+    const agileCoreWS = 'ws://agile-core:8080/ws';
     const ipAddress = process.env.DEVICE_IP || '217.77.95.110';
     const grafanaPort = process.env.AGILE_GRAPH_PORT || 3000;
     const serverPort = process.env.AGILE_CLIENT_PORT || 8080;
+    const io = require('socket.io')(server);
+    var W3CWebSocket = require('websocket').w3cwebsocket;
 
-    httpProxy.createServer({
-      target: agileCoreWS,
-      ws: true
-    }).listen(8081);
+    // this proxies all websocket requests
+    io.on('connection', (socket) => {
+      var client = new W3CWebSocket(agileCoreWS);
+
+      client.onopen = function() {
+        socket.emit('agile_connect')
+      };
+
+      client.onmessage = function(e) {
+          if (typeof e.data === 'string') {
+            console.log("Received: '" + e.data + "'");
+            socket.emit('agile_message', JSON.parse(e.data))
+          }
+      };
+
+      socket.on('disconnect', () => {
+        console.log('user disconnected');
+      });
+    });
 
     app.all("/api/*", function(req, res) {
       console.log('redirecting to API');
@@ -36,17 +55,12 @@
       res.status(200).send(ipAddress + ':' + grafanaPort + '/dashboard/db/');
     });
 
-    // hack
-    app.get("/ws", function(req, res) {
-      apiProxy.web(req, res, {target: agileCoreWS });
-    });
-
-    app.use(compression());
+    // app.use(compression());
     app.use(serveStatic(__dirname + '/public', {
         'index': ['index.html']
     }));
 
-    app.listen(serverPort, function() {
-      console.log(chalk.cyan('Agile Client listening on port '+ serverPort));
+    server.listen( 8080, function (  ) {
+    	console.log( `Proxy server listening on http://`, '\n' );
     });
 })();

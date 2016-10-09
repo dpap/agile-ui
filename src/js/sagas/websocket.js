@@ -7,5 +7,5 @@ export function* websocketSaga() {
 }
 
 function* websocketConnected(action) {
-  yield put(newMessage('Socket connection established!'))
+  yield put(newMessage('Socket connection established! ⚡️'))
 }

@@ -1,27 +1,28 @@
 import { DEVICE_API } from '../constants/Endpoints'
-import axios from 'axios'
+import io from 'socket.io-client'
+
 export const websocketMiddleware = (store) => {
 
-  // axios.get(`${DEVICE_API}/ws`).then(function (response) {
-    const ws = new WebSocket('ws://localhost:8081')
-    ws.onopen = event => {
+    var s = io()
+
+    s.on('agile_connect',  () => {
       store.dispatch({
         type: 'SOCKET_CONNECTION',
         result: event.data
       })
-    }
+		})
 
-    ws.onmessage = event => {
+    s.on('agile_message', (message) => {
       store.dispatch({
         type: 'SOCKET_MESSAGE',
-        result: JSON.parse(event.data)
+        result: message
       })
-    }
+    })
 
-    ws.onerror = event => {
+    s.on('agile_error', (error) => {
       store.dispatch({
         type: 'SOCKET_ERROR',
-        result: event.data
+        result: error
       })
-    }
+    })
 }
