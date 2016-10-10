@@ -8,14 +8,14 @@ import { newMessage } from '../actions/messages'
 export const registeredDeviceList = fetchEntity.bind(null, actions.registeredDevices, agileCore.registeredDevicesFetch)
 export const deviceList = fetchEntity.bind(null, actions.devices, agileCore.devicesFetch)
 
-// TODO make deviceRegister live in global scope watching on every view
+// TODO make deviceRegister live in root watching on every view
 export const deviceRegister = DeviceRegisterSaga.bind(null, actions.deviceRegister, agileCore.deviceRegister)
 
 function* _deviceListPoll(fn) {
   try {
     while (true) {
       yield call(fn)
-      yield call(delay, 10000)
+      yield call(delay, 3000)
     }
   } finally {
     if (yield cancelled())
@@ -27,7 +27,16 @@ function* _deviceListPoll(fn) {
 
 export function* DeviceRegisterSaga(entity, apiFn, action) {
 
-  var typeofObj = yield call(agileCore.deviceTypeof, action.result)
+  let typeofObj = yield call(agileCore.deviceTypeof, action.result)
+  let deviceType
+
+  if (typeofObj.response.data) {
+    console.log(typeofObj.response.data[0])
+    deviceType = typeofObj.response.data[0]
+  } else {
+    deviceType = ''
+    yield put(newMessage(typeofObj.error))
+  }
 
   let device = action.result
   let newDevice = {
@@ -37,7 +46,7 @@ export function* DeviceRegisterSaga(entity, apiFn, action) {
       name: device.name,
       status: device.status
     },
-    type: typeofObj.response.data[0]
+    type: deviceType
   }
 
   const {response, error} = yield call(apiFn, newDevice)

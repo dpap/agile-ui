@@ -47,17 +47,16 @@ export function* DeviceDeleteSaga(entity, apiFn, id) {
 }
 
 export function* grafanaLinkSaga(action) {
-  console.log('action', action)
   yield put(newMessage(`Opening visualizations for ${ action.result.name }`))
   // Make a request for a user with a given ID
   axios.get(`${DEVICE_API}/grafana`)
   .then(function (response) {
+    console.log(url, `https://${response.data}/${ action.result.deviceId }`)
     window.open(`https://${response.data}/${ action.result.deviceId }`,'_blank')
   })
   .catch(function (error) {
     put(newMessage(error))
   })
-
 }
 
 export function* deviceSaga(id) {

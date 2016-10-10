@@ -14,10 +14,10 @@
     // TODO don't hardcode ports
     const agileCore = 'http://agile-core:8080';
     const agileGraph = 'http://agile-graph:9000';
-    const agileCoreWS = 'ws://agile-core:8080/ws';
-    const ipAddress = process.env.DEVICE_IP || '217.77.95.110';
+    const agileCoreWS = process.env.AGILE_CORE_WS || 'ws://agile-core:8080/ws';
+    const ipAddress = process.env.DEVICE_IP || '10.0.0.4';
     const grafanaPort = process.env.AGILE_GRAPH_PORT || 3000;
-    const serverPort = process.env.AGILE_CLIENT_PORT || 8080;
+    const serverPort = process.env.AGILE_CLIENT_PORT || 1337;
     const io = require('socket.io')(server);
     var W3CWebSocket = require('websocket').w3cwebsocket;
 
@@ -52,7 +52,8 @@
     });
 
     app.get("/resin/grafana", function(req, res) {
-      res.status(200).send(ipAddress + ':' + grafanaPort + '/dashboard/db/');
+      console.log('grafana link request')
+      res.status(200).send(ipAddress + ':' + grafanaPort + '/dashboard/db');
     });
 
     // app.use(compression());
@@ -60,7 +61,7 @@
         'index': ['index.html']
     }));
 
-    server.listen( 8080, function (  ) {
-    	console.log( `Proxy server listening on http://`, '\n' );
+    server.listen( serverPort, function () {
+    	console.log( `Proxy server listening on port ` + serverPort);
     });
 })();

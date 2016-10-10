@@ -55,7 +55,7 @@ export const registeredDevicesFetch = () => callApi('GET', `${BASE_API}/devices`
 export const devicesFetch = () => callApi('GET', `${BASE_API}/protocols/devices`, null, deviceSchemaArray)
 export const deviceDelete = deviceId => callApi('DELETE', `${BASE_API}/devices/${deviceId}`)
 export const deviceRegister = device => callApi('POST', `${BASE_API}/devices/register`, device, registeredDeviceSchema)
-export const deviceConnect = deviceId => callApi('POST', `${BASE_API}/device/${deviceId}/connect`, deviceId, registeredDeviceSchema)
+export const deviceConnect = deviceId => callApi('POST', `${BASE_API}/device/${deviceId}/connection`, deviceId, registeredDeviceSchema)
 
 export const deviceTypeof = device => callApi('POST', `${BASE_API}/devices/typeof`, device)
 
