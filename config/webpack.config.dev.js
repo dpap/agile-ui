@@ -11,7 +11,9 @@ const PATHS = {
 }
 
 const plugins = [
-  // Shared code
+  // Shared codenew webpack.optimize.OccurenceOrderPlugin(),
+  // Webpack 2.0 fixed this mispelling
+  new webpack.HotModuleReplacementPlugin(),
   new webpack.optimize.CommonsChunkPlugin('vendor', 'js/vendor.bundle.js'),
   // Avoid publishing files when compilation fails
   new webpack.NoErrorsPlugin(),
@@ -32,7 +34,7 @@ const sassLoaders = [
 module.exports = {
   env : process.env.NODE_ENV,
   entry: {
-    app: ['babel-polyfill', path.resolve(PATHS.app, 'main.js')],
+    app: ['babel-polyfill', path.resolve(PATHS.app, 'main.js'), 'webpack-hot-middleware/client'],
     vendor: ['react']
   },
   output: {

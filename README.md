@@ -32,3 +32,4 @@ TODOs
 [ ] Add grafana link
 [ ] More docs
 [ ] tests
+[ ] server side rendering? 

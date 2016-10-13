@@ -1,5 +1,4 @@
-import * as _agileCore from './agileCore'
+import * as agileCore from './agileCore/index'
 import { websocketMiddleware } from './websocketMiddleware'
 
-const agileCore = _agileCore
 export { agileCore, websocketMiddleware }

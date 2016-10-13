@@ -1,4 +1,4 @@
-import { BASE_API } from '../constants/Endpoints'
+import { AGILE_API } from '../constants/Endpoints'
 import { createRequestTypes, asyncActionFactory } from './utils'
 
 // trigger a device registration

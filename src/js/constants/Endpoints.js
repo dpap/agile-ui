@@ -1,10 +1,6 @@
-let BASE_API = 'http://217.77.95.110:8080/api'
-let DEVICE_API = 'http://217.77.95.110:8080/resin'
-let WS_API // TODO sort out websockets when in dev mode
+const AGILE_API = '/api'
+const GRAPH_API = '/graph'
+const RESIN_API = '/resin'
+const WS_API = '/ws'
 
-if (process.env.NODE_ENV === 'production') {
-  BASE_API = '/api'
-  DEVICE_API = '/resin'
-}
-
-export { BASE_API, DEVICE_API, WS_API }
+export { AGILE_API, RESIN_API, GRAPH_API, WS_API }
